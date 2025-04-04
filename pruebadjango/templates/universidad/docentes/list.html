@@ -1,0 +1,51 @@
+{% extends "universidad/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="card-title">Lista de docentes</div>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Edad</th>
+                                <th>Ci</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for docente in docente_list %}
+                                <tr>
+                                    <td> {{ docente.id }}</td>
+                                    <td> {{ docente.nombres }}</td>
+                                    <td> {{ docente.apellidos }}</td>
+                                    <td> {{ docente.edad }}</td>
+                                    <td> {{ docente.ci }}</td>
+                                    <td> {{ docente.fecha_nacimiento }}</td>
+                                    <td>
+                                        <a class="btn btn-primary" href="{% url "docentes_edit" docente.id %}">Editar</a>
+                                    </td>
+                                    <td>
+                                        <form action="{% url "docentes_delete" docente.id %}" method="post">
+                                            {% csrf_token %}
+                                            <input class="btn btn-danger" type="submit" value="Eliminar">
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

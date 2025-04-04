@@ -1,0 +1,20 @@
+{% extends "pedido/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="card-title">Formulario de Mesas</div>
+
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {{ form.as_div }}
+                            <input class="btn btn-primary mt-2" type="submit" value="Guardar">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

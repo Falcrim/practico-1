@@ -1,0 +1,46 @@
+{% extends "pedido/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="card-title">Lista de Platos</div>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for plato in platos %}
+                                <tr>
+                                    <td> {{ plato.id }}</td>
+                                    <td> {{ plato.nombre }}</td>
+                                    <td> {{ plato.descripcion }}</td>
+                                    <td>
+                                        <a class="btn btn-primary"
+                                           href="{% url "plato_edit" plato.id %}">Editar</a>
+                                    </td>
+                                    <td>
+                                        <form action="{% url "plato_delete" plato.id %}" method="post">
+                                            {% csrf_token %}
+                                            <input class="btn btn-danger" type="submit" value="Eliminar">
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

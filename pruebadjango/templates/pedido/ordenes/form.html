@@ -1,0 +1,55 @@
+{% extends "pedido/base.html" %}
+{% block content %}
+<div class="container">
+    <div class="card mt-2">
+        <div class="card-body">
+            <div class="card-title">
+                {% if editing %}Editar Orden #{{ form.instance.id }}{% else %}Nueva Orden{% endif %}
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    {{ form.mesero.label_tag }}
+                    {{ form.mesero }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.mesa.label_tag }}
+                    {{ form.mesa }}
+                </div>
+
+                <h5>Platos:</h5>
+                <div class="row">
+                    {% for plato in platos %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>{{ plato.nombre }}</h6>
+                                <input type="number"
+                                       name="cantidad_{{ plato.id }}"
+                                       min="0"
+                                       value="{% if plato.id in detalles.keys %}{{ detalles.plato.cantidad }}{% else %}0{% endif %}"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{% url 'orden_list' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

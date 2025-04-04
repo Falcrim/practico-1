@@ -1,0 +1,15 @@
+{% extends "pedido/base.html" %}
+{% block content %}
+<div class="container">
+    <div class="card mt-2">
+        <div class="card-body">
+            <h5 class="card-title">Cerrar Orden #{{ orden.id }}</h5>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <button type="submit" class="btn btn-success mt-3">Finalizar y Registrar Cliente</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

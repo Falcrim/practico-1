@@ -1,0 +1,53 @@
+{% extends "pedido/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="card mt-2">
+            <div class="card-body">
+                <div class="card-title">Lista de Órdenes</div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Mesa</th>
+                        <th>Mesero</th>
+                        <th>Estado</th>
+                        <th>Platos</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for orden in ordenes %}
+                        <tr>
+                            <td>{{ orden.id }}</td>
+                            <td>{{ orden.mesa.numero }}</td>
+                            <td>{{ orden.mesero.nombre }}</td>
+                            <td>
+                            <span class="badge bg-{% if orden.estado == 'abierto' %}success{% else %}danger{% endif %}">
+                                {{ orden.estado|title }}
+                            </span>
+                            </td>
+                            <td>
+                                {% for detalle in orden.detalleorden_set.all %}
+                                    {{ detalle.plato.nombre }} (x{{ detalle.cantidad }})<br>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% if orden.estado == 'abierto' %}
+                                    <a href="{% url 'orden_edit' orden.id %}" class="btn btn-primary btn-sm">Editar</a>
+                                {% else %}
+                                    <button class="btn btn-secondary btn-sm" disabled>Editar</button>
+                                {% endif %}
+                                <form action="{% url 'orden_delete' orden.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{% url 'orden_create' %}" class="btn btn-primary">Nueva Orden</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

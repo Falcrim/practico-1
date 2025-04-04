@@ -1,0 +1,44 @@
+{% extends "pedido/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="card-title">Lista de Mesas</div>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Numero</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for mesa in mesas %}
+                                <tr>
+                                    <td> {{ mesa.id }}</td>
+                                    <td> {{ mesa.numero }}</td>
+                                    <td>
+                                        <a class="btn btn-primary"
+                                           href="{% url "mesa_edit" mesa.id %}">Editar</a>
+                                    </td>
+                                    <td>
+                                        <form action="{% url "mesa_delete" mesa.id %}" method="post">
+                                            {% csrf_token %}
+                                            <input class="btn btn-danger" type="submit" value="Eliminar">
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
