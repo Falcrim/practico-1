@@ -12,6 +12,8 @@
                         <th>Mesero</th>
                         <th>Estado</th>
                         <th>Platos</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -32,15 +34,27 @@
                                 {% endfor %}
                             </td>
                             <td>
+                                {{ orden.fecha_hora|date:"d/m/Y H:i" }}
+                            </td>
+                            <td>
+                                {% if orden.estado == 'cerrado' %}
+                                    {{ orden.cliente }} <br/>
+                                    <small class="text-muted">{{ orden.cliente.nit }}</small>
+                                {% endif %}
+                            </td>
+                            <td>
                                 {% if orden.estado == 'abierto' %}
                                     <a href="{% url 'orden_edit' orden.id %}" class="btn btn-primary btn-sm">Editar</a>
+                                    <a href="{% url 'orden_close' orden.id %}"
+                                       class="btn btn-warning btn-sm">Finalizar</a>
+                                    <form action="{% url 'orden_delete' orden.id %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
                                 {% else %}
                                     <button class="btn btn-secondary btn-sm" disabled>Editar</button>
+                                    <button class="btn btn-danger btn-sm" disabled>Eliminar</button>
                                 {% endif %}
-                                <form action="{% url 'orden_delete' orden.id %}" method="post" class="d-inline">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                </form>
                             </td>
                         </tr>
                     {% endfor %}
